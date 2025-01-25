@@ -1,12 +1,18 @@
 <html>
     <head>
         <meta name="google-signin-client_id" content="899840722714-ecnpbl7l6gpgmdqm05it3k35shk4jtve.apps.googleusercontent.com">
+        <link rel = "stylesheet" href="design.css"></link>
     </head>
-    <body>
-        <button id="authenticationButton">Authenticate</button>
+    <body id="body">
+        <div style="background-color:rgb(42, 100, 150); text-align: center; border-radius: 15px;">
+            <h1 class="title"> Clear your inbox!</h1>
+        </div>
+        <button style="display:block;" id="authenticationButton">Authenticate</button>
+        <input placeholder="example@example.com">What email id would you like to delete emails from?</input>
         <button id="deleteEmailBtn">Delete Email</button>
-        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        <!--<div class="g-signin2" data-onsuccess="onSignIn"></div>-->
         <script src="delete.js"></script>
+        <script src="movingGradient.jsx"></script>
         <script src="https://apis.google.com/js/platform.js" async defer></script>
     </body>
 </html>
