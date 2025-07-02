@@ -1,6 +1,9 @@
 <html>
     <head>
-        <meta name="google-signin-client_id" content="899840722714-ecnpbl7l6gpgmdqm05it3k35shk4jtve.apps.googleusercontent.com">
+        <script>
+            localStorage.setItem('google_client_id', '899840722714-ecnpbl7l6gpgmdqm05it3k35shk4jtve.apps.googleusercontent.com');
+          </script>
+        <meta name="google-signin-client_id" content=localStorage.getItem('google_client_id')>
         <link rel = "stylesheet" href="design.css"></link>
     </head>
     <body id="body">
@@ -8,8 +11,9 @@
             <h1 class="title"> Clear your inbox!</h1>
         </div>
         <button style="display:block;" id="authenticationButton">Authenticate</button>
-        <input placeholder="example@example.com">What email id would you like to delete emails from?</input>
+        <input placeholder="example@example.com" id="emailInput">What email id would you like to delete emails from?</input>
         <button id="deleteEmailBtn">Delete Email</button>
+        <div id="success"></div>
         <!--<div class="g-signin2" data-onsuccess="onSignIn"></div>-->
         <script src="delete.js"></script>
         <script src="movingGradient.jsx"></script>
