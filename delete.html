@@ -2,22 +2,44 @@
     <head>
         <script>
             localStorage.setItem('google_client_id', '899840722714-en5i6j32mtsm9kg1q300lon4st91u8ls.apps.googleusercontent.com');
-            localStorage.setItem('redirect_uri', "http://127.0.0.1:5500/delete.html");
+            localStorage.setItem('redirect_uri', "http://127.0.0.1:5502/delete.html");
           </script>
         <meta name="google-signin-client_id" content=localStorage.getItem('google_client_id')>
-        <link rel = "stylesheet" href="design.css"></link>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="design.css">
     </head>
     <body id="body">
-        <div style="background-color:rgb(42, 100, 150); text-align: center; border-radius: 15px;">
-            <h1 class="title"> Clear your inbox!</h1>
+        <div>
+            <h1 id="title"></h1>
+            <h2 id ="subtitle"></h2>
         </div>
-        <button style="display:block;" id="authenticationButton">Authenticate</button>
-        <input placeholder="example@example.com" id="emailInput">What email id would you like to delete emails from?</input>
-        <button id="deleteEmailBtn">Delete Email</button>
+        <div class="step-1-container">
+            <h1 id="step-1">1.</h1>
+            <button id="authenticationButton">login with Google</button>
+        </div>
+        <div class="step-2-container">
+            <h1 id="step-2">2.</h1>
+            <input placeholder="example@example.com" id="emailInput">
+            <!-- <button id="deleteEmailBtn">Delete Email</button> -->
+            <div id="deleteEmailBtn">
+                <svg width="60" height="80" viewBox="0 0 60 80">
+                    <rect x="10" y="20" width="40" height="50" rx="3" 
+                          fill="#666" stroke="#333" stroke-width="2"/>
+                    <rect x="5" y="15" width="50" height="8" rx="2" 
+                          fill="#888" stroke="#333" stroke-width="2"/>
+                    <rect x="20" y="25" width="20" height="2" fill="#333"/>
+                    <rect x="20" y="30" width="20" height="2" fill="#333"/>
+                    <rect x="20" y="35" width="20" height="2" fill="#333"/>
+                    <rect x="20" y="40" width="20" height="2" fill="#333"/>
+                </svg>
+            </div>
+        </div>
         <div id="success"></div>
         <!--<div class="g-signin2" data-onsuccess="onSignIn"></div>-->
         <script type="module" src="delete.js"></script>
-        <script src="movingGradient.jsx"></script>
+        <script src="typing_effect.js"></script>
         <script src="https://apis.google.com/js/platform.js" async defer></script>
     </body>
 </html>

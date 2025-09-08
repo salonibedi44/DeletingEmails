@@ -1,11 +1,24 @@
-document.getElementById('authenticationButton').addEventListener('click', authenticate);
-document.getElementById('deleteEmailBtn').addEventListener('click', deleteEmail);
-localStorage.setItem('email_addresses_of_deleted_emails', JSON.stringify([...(new Set())]))
-
-// Check if user is returning from OAuth redirect
-handleRedirect();
-
 import {Codes} from "./code_generation.js"
+
+document.addEventListener('DOMContentLoaded', () => {
+    localStorage.setItem('returnFromAuthenticate', '');
+    localStorage.setItem('email_addresses_of_deleted_emails', JSON.stringify([...(new Set())]))
+
+    document.getElementById('authenticationButton').addEventListener('click', authenticate);
+
+    const trashCan = document.getElementById('deleteEmailBtn')
+    trashCan.addEventListener('mouseenter', () => {
+        trashCan.style.transform = 'scale(1.1)';
+    });
+    
+    trashCan.addEventListener('mouseleave', () => {
+        trashCan.style.transform = 'scale(1)';
+    });
+    trashCan.addEventListener('click', deleteEmail);
+    
+    // Check if user is returning from OAuth redirect
+    handleRedirect();
+});
 
 
 
@@ -27,7 +40,7 @@ async function redirectToOAuthClient() {
 }
 
 async function handleRedirect() {
-    if (localStorage.getItem('access_token') != null) {
+    if (localStorage.getItem('access_token') == null) {
         return;
     }
 
@@ -65,6 +78,7 @@ async function handleRedirect() {
 }
 
 async function authenticate() {
+    localStorage.setItem('returnFromAuthenticate', '123');
     redirectToOAuthClient();
 }
 
@@ -75,8 +89,14 @@ async function getEmailsFromAddr(email_address) {
     // Returns: ids (array of strings)
     // Throws: Error if there is an issue with the request
 
-
     try {
+        if (email_address == "") {
+            const result = confirm("Adding no address will delete the 100 most recent emails from your account. Are you sure you want to do that?");
+            if (!result) {
+                return null;
+            }
+        }
+    
         const at = email_address.indexOf('@');
         const prefix = email_address.substring(0, at);
         const suffix = email_address.substring(at + 1);
@@ -92,8 +112,6 @@ async function getEmailsFromAddr(email_address) {
         }
 
         const data = await response.json();
-        console.log("HERE IS THE DATA:")
-        console.log(data)
         if (data?.messages?.length == null || data?.messages?.length == 0) {
             if (new Set(JSON.parse(localStorage.getItem('email_addresses_of_deleted_emails'))).has(email_address)) {
                 alert("All emails from this address deleted!")
@@ -123,6 +141,11 @@ async function deleteEmail() {
         return;
     }
 
+    // Trigger the paper airplane animation
+    if (window.createPaperAirplaneAnimation) {
+        createPaperAirplaneAnimation();
+    }
+
     try {
         const response = await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/batchDelete`, {
             method: 'POST',
@@ -137,7 +160,7 @@ async function deleteEmail() {
             throw new Error("Issue with deleting emails");
         } 
 
-        var success_message = `Delete successful: ${email_ids.length} messages deleted.`
+        var success_message = `delete successful: ${email_ids.length} messages deleted.`
 
         //Add email address to this set so we know that we've interacted with this email and can give an alert message in getEmailsFromAddr() accordingly
         var email_addresses = new Set(JSON.parse(localStorage.getItem('email_addresses_of_deleted_emails')))
